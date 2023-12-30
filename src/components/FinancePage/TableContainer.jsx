@@ -20,6 +20,9 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
 
   const [selectedBookingID, setSelectedBookingID] = useState();
 
+  const [selectedClientId, setSelectedClientID] = useState();
+
+
   const fetchTableData = async () => {
     axios
       .get(` https://aarnainfra.com/ladder/client/fetch.php`)
@@ -40,6 +43,7 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
     sdr: "text-[#04B900] font-medium text-sm",
     ba_2: "text-[#F5BD1E] font-medium text-sm",
   };
+
 
   const configurationIdMapping = {
     1: "1 BHK",
@@ -207,6 +211,7 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
                 <td>
                   <TableSeeMore
                     setSelectedBookingID={setSelectedBookingID}
+                    setSelectedClientID = {setSelectedClientID}
                     data={item}
                     setDetailsData={setDetailsData}
                     followUp={setIsFollowUpModalVisible}
@@ -219,6 +224,7 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
           </tbody>
         </table>
       </div>
+
 
       {isFollowUpModalVisible && (
         <FollowUpModal
@@ -233,7 +239,9 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
         />
       )}
       {isInvoiceModalVisible && (
-        <InvoiceModal onClose={setIsInvoiceModalVisible} />
+        <InvoiceModal
+        clientID={selectedClientId} 
+        onClose={setIsInvoiceModalVisible} />
       )}
     </>
   );

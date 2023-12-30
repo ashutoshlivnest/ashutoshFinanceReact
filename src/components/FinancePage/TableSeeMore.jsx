@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 const TableSeeMore = ({
   setSelectedBookingID,
+  setSelectedClientID,
   followUp,
   details,
   setDetailsData,
@@ -56,6 +57,7 @@ const TableSeeMore = ({
 
           <p
             onClick={() => {
+              setSelectedClientID(data?.generic_details?.client_id);
               invoice((prev) => !prev);
             }}
             className="px-3  py-[6px] text-xs rounded-md hover:bg-[#9A55FF] hover:text-white"

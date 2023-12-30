@@ -8,7 +8,8 @@ const FollowUpModal = ({ bookingID, onClose }) => {
   const [type, setType] = useState();
   const [followUpDate, setFollowUpDate] = useState();
   const [followUpComment, setFollowUpComment] = useState();
-
+ 
+  //console.log(bookingID);
   const getData = async () => {
     axios
       .patch(`https://aarnainfra.com/ladder/client/followup.php`, {
@@ -90,6 +91,8 @@ const FollowUpModal = ({ bookingID, onClose }) => {
                 className="border    border-[#CFCFCF] rounded w-full text-[#9A9A9A] text-xs pl-2 outline-none h-[30px]"
               />
             </div>
+
+            
           </div>
 
           <button
