@@ -2,12 +2,23 @@ import IMAGES from "../../images";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { AddInvoiceModal } from "./AddInvoiceModal";
 
+ 
 const InvoiceModal = ({ clientID, onClose }) => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [type, setType] = useState();
   const [givenDate , setDate] = useState();
   const [isUpdateArrayVisible, setUpdateArrayVisibility] = useState(false);
+  const [isAddInvoiceModalOpen, setAddInvoiceModalOpen] = useState(false);
+
+  const openAddInvoiceModal = () => {
+    setAddInvoiceModalOpen(true);
+  };
+
+  const closeAddInvoiceModal = () => {
+    setAddInvoiceModalOpen(false);
+  };
 
   const getData = async () => {
     try {
@@ -70,10 +81,14 @@ const InvoiceModal = ({ clientID, onClose }) => {
         <div className="modal mx-auto max-h-[80vh] w-[45vw] overflow-y-scroll rounded-xl bg-white pb-4 pl-6 pr-6 outline-none">
           <div className="border-b-2 border-b-[#5B5B5B] sticky top-0 z-10 flex items-center justify-between pb-3 pt-5 bg-white h-fit">
             <span className="text-lg font-semibold">Client</span>
-            <button className="bg-[#9A55FF] text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3">
+            <button className="bg-[#9A55FF] text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3"
+            onClick={openAddInvoiceModal}>
               Add New Invoice
               <img src={IMAGES.AddIconWhite} alt="icon" />
             </button>
+            {isAddInvoiceModalOpen && (
+            <AddInvoiceModal clientID={clientID} onClose={closeAddInvoiceModal} />
+             )}
             <img
               onClick={() => onClose((prev) => !prev)}
               className="cursor-pointer"
@@ -90,7 +105,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                 /* start div */
                 <div
                   key={index}
-                  className="bg-white py-3 px-4 rounded-xl shadow-xl"
+                  className="bg-white py-3 px-4 rounded-xl shadow-xl mb-4"
                 >
                   <div className="flex items-center border-b border-b-[#F4F4F4] pb-3 justify-between gap-2">
                     <img src={IMAGES.InvoiceYellow} alt="invoice yellow" />
@@ -119,13 +134,13 @@ const InvoiceModal = ({ clientID, onClose }) => {
                   <div className="flex justify-between mt-5 ml-2">
                     <div className="relative flex flex-col justify-center  flex-1 ">
                       <div
-                        className={`z-10 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
+                        className={`z-5 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
                           item.submit_date !== null
                             ? "bg-[#9A55FF]"
                             : "bg-[#d8c0fb]"
                         }`}
                       >
-                        <img src={IMAGES.TickWhite} alt="tick white " />
+                        <img src={IMAGES.TickWhite} alt="tick white " className="z-10"/>
                       </div>
                       <div
                         className={`absolute top-[10px]  w-full   h-[2px] ${
@@ -142,13 +157,13 @@ const InvoiceModal = ({ clientID, onClose }) => {
 
                     <div className="relative flex flex-1 flex-col justify-center ">
                       <div
-                        className={`z-10 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
+                        className={`z-5 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
                           item.submit_date !== null || item.received_date !== null
                             ? "bg-[#9A55FF]"
                             : "bg-[#d8c0fb]"
                         }`}
                       >
-                        <img src={IMAGES.TickWhite} alt="tick white " />
+                        <img src={IMAGES.TickWhite} alt="tick white " className="z-10"/>
                       </div>
 
                       <div
@@ -166,13 +181,13 @@ const InvoiceModal = ({ clientID, onClose }) => {
 
                     <div className="relative flex flex-1 flex-col justify-center w-3">
                       <div
-                        className={`z-10 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
+                        className={`z-5 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
                           item.submit_date !== null || item.received_date !== null
                             ? "bg-[#9A55FF]"
                             : "bg-[#d8c0fb]"
                         }`}
                       >
-                        <img src={IMAGES.TickWhite} alt="tick white " />
+                        <img src={IMAGES.TickWhite} alt="tick white " className="z-10" />
                       </div>
 
                       <p className="mt-2 text-[#9A55FF] text-xs font-medium">
@@ -180,10 +195,10 @@ const InvoiceModal = ({ clientID, onClose }) => {
                       </p>
                     </div>
 
-                    <div className="flex z-10 justify-center items-center ml-px">
+                    <div className="flex z-0 justify-center items-center ml-px">
                     <button
                         onClick={toggleUpdateArrayVisibility}
-                        className="bg-[#9A55FF] text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3"
+                        className="bg-[#9A55FF] z-0 text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3"
                       >
                         Change Status
                     </button>
@@ -249,10 +264,14 @@ const InvoiceModal = ({ clientID, onClose }) => {
                     </div>
                   )}
                 </div>
+                
               ))}
           </div>
+          
         </div>
+        
       </div>
+      
     </>
   );
 };
