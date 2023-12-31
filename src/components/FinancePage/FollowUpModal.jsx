@@ -19,7 +19,7 @@ const FollowUpModal = ({ bookingID, onClose }) => {
   };
 
   const updateData = async () => {
-    console.log(bookingID, followUpComment, followUpDate, type);
+    //console.log(bookingID, followUpComment, followUpDate, type);
 
     if (!followUpComment || !followUpDate || !type) {
       toast.error("Please fill all the value");
@@ -37,6 +37,7 @@ const FollowUpModal = ({ bookingID, onClose }) => {
         getData()
       });
   };
+
   useEffect(() => {
     getData();
   }, []);
@@ -92,7 +93,7 @@ const FollowUpModal = ({ bookingID, onClose }) => {
               />
             </div>
 
-            
+
           </div>
 
           <button

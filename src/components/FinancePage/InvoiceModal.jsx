@@ -1,11 +1,12 @@
 import IMAGES from "../../images";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const InvoiceModal = ({ clientID, onClose }) => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [type, setType] = useState();
-  const [expectedDate, setexpectedDate] = useState();
+  const [givenDate , setDate] = useState();
   const [isUpdateArrayVisible, setUpdateArrayVisibility] = useState(false);
 
   const getData = async () => {
@@ -19,6 +20,41 @@ const InvoiceModal = ({ clientID, onClose }) => {
       console.error("Error fetching data:", error);
     }
   };
+
+  const updateData = async (client_id, invoice_no) => {
+    let requestBody = {
+      client_id: client_id,
+      invoice_number: invoice_no,
+      post_status_id: type,
+    };
+
+    // Conditionally add properties based on the type
+    if (type === '2') {
+      requestBody.submit_date = givenDate;
+    } else if (type === '3') {
+      requestBody.received_date = givenDate;
+    } else if (type === '4') {
+      requestBody.cancel_date = givenDate;
+    }
+
+    try {
+      const res = await axios.post(
+        'https://aarnainfra.com/ladder/client/invoice.php',
+        requestBody
+      );
+
+      console.log(res);
+      if(res.status === 200) {
+        toast.success("Invoice Updated Successfully");  
+      }
+      //console.log(requestBody);
+      getData();
+    } catch (error) {
+      console.error('Error updating data:', error);
+      toast.error("Error updating data");
+    }
+  };
+  
 
   useEffect(() => {
     getData();
@@ -183,11 +219,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                             {type === "2" ? "Submit Date" : type === "3" ? "Received Date" : type === "4" ? "Cancel Date" : "Select Date"}
                           </p>
                           <input
-                            onChange={(e) => {
-                              if (type === "2") setSubmitDate(e.target.value);
-                              else if (type === "3") setReceivedDate(e.target.value);
-                              else if (type === "4") setCancelDate(e.target.value);
-                            }}
+                            onChange={(e) => {setDate(e.target.value)}}
                             type="date"
                             className="border border-[#CFCFCF] rounded w-full text-[#9A9A9A] text-xs pl-2 outline-none h-[30px]"
                           />
@@ -207,7 +239,10 @@ const InvoiceModal = ({ clientID, onClose }) => {
                       </div>
 
                       <div className="flex justify-center align-middle mt-4">
-                        <button className="bg-[#9A55FF] text-white text-xs flex h-7 w-32 rounded items-center justify-center gap-2  mr-3">
+                      <button
+                          className="bg-[#9A55FF] text-white text-xs flex h-7 w-32 rounded items-center justify-center gap-2  mr-3"
+                          onClick={() => updateData(item.client_id, item.invoice_number)}
+                        >
                           Update
                         </button>
                       </div>
