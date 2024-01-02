@@ -135,7 +135,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                     <div className="relative flex flex-col justify-center  flex-1 ">
                       <div
                         className={`z-5 bg-[#9A55FF] w-5 h-5 rounded-full flex justify-center items-center ${
-                          item.submit_date !== null
+                          item.submit_date !== null || item.received_date !== null
                             ? "bg-[#9A55FF]"
                             : "bg-[#d8c0fb]"
                         }`}
@@ -144,7 +144,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                       </div>
                       <div
                         className={`absolute top-[10px]  w-full   h-[2px] ${
-                          item.submit_date !== null
+                          item.submit_date !== null || item.received_date !== null
                             ? "bg-[#9A55FF]"
                             : "bg-[#d8c0fb]"
                         }`}
@@ -221,7 +221,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                             <option selected hidden>
                               Select Here
                             </option>
-                            <option value="2" hidden={item.submit_date !== null} >Submitted</option>
+                            <option value="2" hidden={item.submit_date !== null && item.received_date !== null} >Submitted</option>
                             <option value="3" hidden={item.received_date !== null}>Received</option>
                             <option value="4" hidden={item.cancellation_date !== null}>Cancelled</option>
                           </select>
