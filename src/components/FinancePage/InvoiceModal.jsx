@@ -11,6 +11,8 @@ const InvoiceModal = ({ clientID, onClose }) => {
   const [givenDate , setDate] = useState();
   const [isUpdateArrayVisible, setUpdateArrayVisibility] = useState(false);
   const [isAddInvoiceModalOpen, setAddInvoiceModalOpen] = useState(false);
+  const [selectedInvoiceIndex, setSelectedInvoiceIndex] = useState(null); // Track the selected invoice index
+
 
   const openAddInvoiceModal = () => {
     setAddInvoiceModalOpen(true);
@@ -71,10 +73,10 @@ const InvoiceModal = ({ clientID, onClose }) => {
     getData();
   }, [clientID]);
 
-  const toggleUpdateArrayVisibility = () => {
-    setUpdateArrayVisibility((prev) => !prev);
+  const toggleUpdateArrayVisibility = (index) => {
+    setSelectedInvoiceIndex((prev) => (prev === index ? null : index));
   };
-
+  
   return (
     <>
       <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-x-hidden pt-20 font-ubuntu outline-none backdrop-brightness-50 focus:outline-none">
@@ -197,7 +199,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
 
                     <div className="flex z-0 justify-center items-center ml-px">
                     <button
-                        onClick={toggleUpdateArrayVisibility}
+                        onClick={() => toggleUpdateArrayVisibility(index)}
                         className="bg-[#9A55FF] z-0 text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3"
                       >
                         Change Status
@@ -206,7 +208,7 @@ const InvoiceModal = ({ clientID, onClose }) => {
                   </div>
 
                   {/* update array */}
-                  {isUpdateArrayVisible && (
+                  {selectedInvoiceIndex === index && (
                     <div className="border-t-2 border-b-[#5B5B5B] w-full mt-4">
                       <div className="bg-grey flex flex-row gap-4 mt-4">
                         {/* Status */}
