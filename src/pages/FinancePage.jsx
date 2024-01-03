@@ -4,6 +4,8 @@ import Sidebar from "../components/common/Sidebar";
 import ActionBar from "../components/FinancePage/ActionBar";
 import TableContainer from "../components/FinancePage/TableContainer";
 import IMAGES from "../images";
+import { useFilterContext } from "../context/FilterContext";
+
 
 const FinanacePage = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);

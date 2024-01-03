@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import { AppProvider } from "./context/AppContext";
+import { FilterProvider } from "./context/FilterContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import FinanacePage from "./pages/FinancePage";
@@ -12,7 +13,9 @@ import Collection2 from "./pages/Collection2";
 import ProjectedCashflowReportPage from "./pages/ProjectedCashflowReportPage";
 import DelayedCashflowReportPage from "./pages/DelayedCashflowReportPage";
 
+
 const App = () => {
+
   return (
     <AppProvider>
       <ToastContainer />

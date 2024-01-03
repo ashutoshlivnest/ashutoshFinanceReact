@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import Loader from "../common/Loader";
 import FollowUpModal from "./FollowUpModal";
 import TableSeeMore from "./TableSeeMore";
 import DetailsModal from "./DetailsModal";
 import InvoiceModal from "./InvoiceModal";
+import { useFilterContext } from '../../context/FilterContext';
+
 
 const TableContainer = ({ isSidebarVisible, tableFilter }) => {
   const [tableData, setTableData] = useState([]);
@@ -21,6 +23,18 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
   const [selectedBookingID, setSelectedBookingID] = useState();
 
   const [selectedClientId, setSelectedClientID] = useState();
+
+  const { filterData } = useFilterContext();
+
+
+  useEffect(() => {
+    if (filterData) {
+      console.log(filterData);
+      setTableData(filterData);
+    }
+  }, [filterData]);
+  
+
 
 
   const fetchTableData = async () => {
@@ -225,6 +239,7 @@ const TableContainer = ({ isSidebarVisible, tableFilter }) => {
         </table>
       </div>
 
+      
 
       {isFollowUpModalVisible && (
         <FollowUpModal

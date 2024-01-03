@@ -1,12 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState , useContext } from "react";
 import IMAGES from "../../images";
 import CustomMultiSelect from "./CustomMultiSelect";
 import axios from "axios";
 import DateRangePicker from "../common/DateRangePicker";
+import { useFilterContext } from '../../context/FilterContext';
 
-const FilterContainer = ({ isFiltersVisible, setIsFiltersVisible }) => {
+
+const FilterContainer = ({ isFiltersVisible, setIsFiltersVisible  }) => {
   // filter name state in the save filter input textbox
   const [filterName, setFilterName] = useState("");
+  const { updateFilterData } = useFilterContext();
   const [activeElementIds, setActiveElementIds] = useState([]);
   const handleElementClick = (id) => {
     setActiveElementIds((prevIds) => {
@@ -48,6 +51,9 @@ const FilterContainer = ({ isFiltersVisible, setIsFiltersVisible }) => {
   const [sdrDate, setSdrDate] = useState();
   const [followUpDate, setFollowUpDate] = useState();
 
+
+  //console.log(selectedFilter);
+
   const handleFilter = async () => {
     axios
       .post(`https://aarnainfra.com/ladder/client/filterFetch.php`, {
@@ -63,6 +69,8 @@ const FilterContainer = ({ isFiltersVisible, setIsFiltersVisible }) => {
       })
       .then((res) => {
         console.log(res);
+        //sendDataToParent(res?.data);
+        updateFilterData(res?.data);
       })
       .catch((err) => {
         console.log(err);

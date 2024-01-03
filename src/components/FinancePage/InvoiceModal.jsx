@@ -81,8 +81,8 @@ const InvoiceModal = ({ clientID, onClose }) => {
     <>
       <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-x-hidden pt-20 font-ubuntu outline-none backdrop-brightness-50 focus:outline-none">
         <div className="modal mx-auto max-h-[80vh] w-[45vw] overflow-y-scroll rounded-xl bg-white pb-4 pl-6 pr-6 outline-none">
-          <div className="border-b-2 border-b-[#5B5B5B] sticky top-0 z-10 flex items-center justify-between pb-3 pt-5 bg-white h-fit">
-            <span className="text-lg font-semibold">Client</span>
+          <div className="border-b-2 border-b-[#bf8bff] sticky top-0 z-10 flex items-center justify-between pb-3 pt-5 bg-white h-fit">
+            <span className="text-lg font-semibold text-violet-500">Client</span>
             <button className="bg-[#9A55FF] text-white text-xs flex h-6 w-32 rounded items-center justify-center gap-2 ml-auto mr-3"
             onClick={openAddInvoiceModal}>
               Add New Invoice
