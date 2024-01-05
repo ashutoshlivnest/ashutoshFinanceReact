@@ -8,12 +8,14 @@ import IMAGES from "../images";
 import Loader from "../components/common/Loader";
 import FilterContainer from "../components/AgingReportPage/FilterContainer";
 
-export const TopAccountReached = () => {
+export const TopAccountReached = (graphData) => {
+  console.log();
   const data = {
-    labels: [1, 2, 3, 4, 5],
+    labels: [0, 1, 2, 3, 4],
+
     datasets: [
       {
-        data: [15, 10, 30, 22, 32],
+        data: [0, 1, 2, 3, 4],
         backgroundColor: [
           "#AAB2F8",
           "#AAB2F8",
@@ -53,7 +55,7 @@ export const TopAccountReached = () => {
   return <Bar data={data} options={options} />;
 };
 
-export const TopAccountDelayed = () => {
+export const TopAccountDelayed = (graphData) => {
   const data = {
     labels: [1, 2, 3, 4, 5],
     datasets: [
@@ -109,6 +111,7 @@ const AgingReportPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
+  const [dataGraph, setGraphData] = useState([]);
   // const [data, setData] = useState([]);
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -121,6 +124,25 @@ const AgingReportPage = () => {
   for (let i = 1; i <= Math.ceil(totalCount / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  if (dataGraph.length > 0) {
+    console.log(dataGraph);
+  }
+  const getGraphData = async () => {
+    try {
+      const res = await axios.get(
+        "https://aarnainfra.com/ladder/client/expense/agingGraphApi.php"
+      );
+      setGraphData(res?.data || []);
+      console.log(res?.data);
+    } catch (error) {
+      console.error("Error fetching graph data:", error);
+    }
+  };
+
+  useEffect(() => {
+    getGraphData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -352,104 +374,104 @@ const AgingReportPage = () => {
               <div className="bg-[#FFFFF1] border border-[#9B9B9B] rounded pb-8 px-4 w-[17.5vw]">
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.descending?.[0]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.descending?.[0]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.descending?.[1]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.descending?.[1]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.descending?.[2]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.descending?.[2]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.descending?.[3]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.descending?.[3]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.descending?.[4]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.descending?.[4]?.avg_receive_days}
                   </p>
                 </div>
               </div>
             </div>
 
             <div className="w-[250px] h-[360px] flex-1">
-              <TopAccountReached />
+              <TopAccountReached graphData={dataGraph} />
             </div>
 
             <div className="w-[250px] h-[360px] flex-1">
-              <TopAccountDelayed />
+              <TopAccountDelayed graphData={dataGraph} />
             </div>
             <div>
               <p className="font-medium mb-5">Top Account Delayed</p>
 
               <div className="bg-[#FFFFF1] border border-[#9B9B9B] rounded pb-8 px-4 w-[17.5vw]">
-                <div className="flex items-center gap-3 mt-8">
+                <div className="flex items-center gap-2 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.ascending?.[0]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.ascending?.[0]?.avg_receive_days}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 mt-8">
+                  <p className="text-[#606060] text-[15px] font-medium ">
+                    {dataGraph?.ascending?.[1]?.company_name}
+                  </p>
+                  <p className="text-[#38424B] text-[13px] font-medium">
+                    {dataGraph?.ascending?.[1]?.avg_receive_days}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 mt-8">
+                  <p className="text-[#606060] text-[15px] font-medium ">
+                    {dataGraph?.ascending?.[2]?.company_name}
+                  </p>
+                  <p className="text-[#38424B] text-[13px] font-medium">
+                    {dataGraph?.ascending?.[2]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.ascending?.[3]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.ascending?.[3]?.avg_receive_days}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-3 mt-8">
                   <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
+                    {dataGraph?.ascending?.[4]?.company_name}
                   </p>
                   <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-8">
-                  <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
-                  </p>
-                  <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3 mt-8">
-                  <p className="text-[#606060] text-[15px] font-medium ">
-                    Developer Name
-                  </p>
-                  <p className="text-[#38424B] text-[13px] font-medium">
-                    5 Days
+                    {dataGraph?.ascending?.[4]?.avg_receive_days}
                   </p>
                 </div>
               </div>
