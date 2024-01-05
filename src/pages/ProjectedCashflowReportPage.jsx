@@ -555,6 +555,7 @@ const ProjectedCashflowReportPage = () => {
       .get("https://aarnainfra.com/ladder/client/cashflow/projected_cashflow.php")
       .then((res) => {
         setData(res?.data);
+        console.log(res?.data);
       });
   };
 
@@ -768,7 +769,7 @@ const ProjectedCashflowReportPage = () => {
 
                 <tr className="h-[42px] bg-[#F1EEFF] ">
                   <td className="text-[#595959] sticky left-0 bg-inherit font-bold text-base  text-center drop-shadow-2xl z-10">
-                    Total
+                    Total 
                   </td>
                   {monthTotal?.map(
                     (item, i) =>
