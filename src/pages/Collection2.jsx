@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../components/common/Header";
-import { useState } from "react";
+import { useState,useEffect  } from "react";
 import Sidebar from "../components/common/Sidebar";
 import IMAGES from "../images";
+import axios from "axios";
 import { Doughnut, Chart, Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
-export const ProjectChart = React.memo(() => {
+export const ProjectChart = React.memo((graphData) => {
   const data = {
     labels: [
       "Not Submitted Yet",
@@ -15,9 +16,17 @@ export const ProjectChart = React.memo(() => {
       "Delayed submitted ",
       "Not Raised",
     ],
+    
     datasets: [
       {
-        data: [25, 50, 10, 30, 15],
+         data : [
+          graphData && graphData.graphData.length > 0 && (graphData.graphData[0]?.not_submitted / 100) * 100,
+          graphData && graphData.graphData.length > 0 && (graphData.graphData[0]?.on_time / 100) * 100,
+          graphData && graphData.graphData.length > 0 && (graphData.graphData[0]?.delayed_raised / 100) * 100,
+          graphData && graphData.graphData.length > 0 && (graphData.graphData[0]?.delayed_submitted / 100) * 100,
+          graphData && graphData.graphData.length > 0 && (graphData.graphData[0]?.not_raised / 100) * 100
+                ],
+                
         backgroundColor: [
           "#E94B3F",
           "#01ABC2",
@@ -112,6 +121,24 @@ export const ProjectChart = React.memo(() => {
 
 const Collection2 = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [data, setData] = useState([]);
+  const [graphData, setgraphData] = useState([]);
+
+  const getGraphData = async () => {
+    axios
+      .get("https://aarnainfra.com/ladder/client/collections/collectiongraph.php")
+      .then((res) => {
+        setgraphData(res?.data);
+        console.log(res?.data);
+      });
+  };
+
+  useEffect(() => {
+    getGraphData();
+  }, []);
+
+  
+
 
   return (
     <>
@@ -181,7 +208,7 @@ const Collection2 = () => {
 
             <div className="flex pl-[38px] pr-12  h-full justify-between mt-3">
                   <div className=" self-center w-[192px] h-[192px] ">
-                    <ProjectChart />
+                  <ProjectChart graphData={graphData} />
                   </div>
 
                   <div className="mt-5">
@@ -190,23 +217,29 @@ const Collection2 = () => {
                       <p className="text-[#606060] text-[13px] font-medium pl-3 pr-4">
                         Not Submitted Yet
                       </p>
-                      <p className="bg-[#EEEEEE] text-[#38424B] text-[13px] font-medium px-1">
-                        25
-                      </p>
+                      {graphData && graphData.length > 0 && (
+                        <p className="bg-[#EEEEEE] text-[#38424B] text-[13px] font-medium px-1">
+                          {graphData[0].not_submitted}
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex mt-2 items-center">
                       <div className="h-[22px] w-[22px] bg-[#01ABC2] "></div>
                       <p className="text-[#606060] text-[13px] font-medium pl-3 pr-4">
                         On-time
-                        <span className="inline-block ml-5 mr-5">30</span>
+                        {graphData && graphData.length > 0 && (
+                        <span className="inline-block ml-5 mr-5">{graphData[0].on_time}</span>
+                        )}
                       </p>
                     </div>
                     <div className="flex mt-2 items-center">
                       <div className="h-[22px] w-[22px] bg-[#F99408] "></div>
                       <p className="text-[#606060] text-[13px] font-medium pl-3 pr-4">
-                        Delayed
-                        <span className="inline-block ml-5 mr-5">50</span>
+                        Delayed Raised
+                      {graphData && graphData.length > 0 && (
+                        <span className="inline-block ml-5 mr-5">{graphData[0].delayed_raised}</span>
+                      )}
                       </p>
                     </div>
 
@@ -214,15 +247,19 @@ const Collection2 = () => {
                       <div className="h-[22px] w-[22px] bg-[#009788] "></div>
                       <p className="text-[#606060] text-[13px] font-medium pl-3 pr-4">
                         Delayed submitted 
-                        <span className="inline-block ml-5 mr-5">25</span>
-                      </p>
+                        {graphData && graphData.length > 0 && (
+                        <span className="inline-block ml-5 mr-5">{graphData[0].delayed_submitted}</span>
+                        )}
+                        </p>
                     </div>
                     <div className="flex mt-2 items-center">
                       <div className="h-[22px] w-[22px] bg-[#7DB244] "></div>
                       <p className="text-[#606060] text-[13px] font-medium pl-3 pr-4">
                         Not Raised
-                        <span className="inline-block ml-5 mr-5">30</span>
-                      </p>
+                        {graphData && graphData.length > 0 && (
+                        <span className="inline-block ml-5 mr-5">{graphData[0].delayed_raised}</span>
+                       )}
+                        </p>
                     </div>
                   </div>
                 </div>
