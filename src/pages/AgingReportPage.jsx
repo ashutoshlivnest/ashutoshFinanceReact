@@ -11,11 +11,19 @@ import FilterContainer from "../components/AgingReportPage/FilterContainer";
 export const TopAccountReached = (graphData) => {
   console.log();
   const data = {
-    labels: [0, 1, 2, 3, 4],
+    labels: [graphData?.graphData?.descending?.[0]?.company_name, 
+             graphData?.graphData?.descending?.[1]?.company_name, 
+             graphData?.graphData?.descending?.[2]?.company_name, 
+             graphData?.graphData?.descending?.[3]?.company_name, 
+             graphData?.graphData?.descending?.[4]?.company_name],
 
     datasets: [
       {
-        data: [0, 1, 2, 3, 4],
+        data: [graphData?.graphData?.descending?.[0]?.avg_receive_days, 
+               graphData?.graphData?.descending?.[1]?.avg_receive_days, 
+               graphData?.graphData?.descending?.[2]?.avg_receive_days, 
+               graphData?.graphData?.descending?.[3]?.avg_receive_days, 
+               graphData?.graphData?.descending?.[4]?.avg_receive_days],
         backgroundColor: [
           "#AAB2F8",
           "#AAB2F8",
@@ -57,10 +65,20 @@ export const TopAccountReached = (graphData) => {
 
 export const TopAccountDelayed = (graphData) => {
   const data = {
-    labels: [1, 2, 3, 4, 5],
+    labels: [
+        graphData?.graphData?.ascending?.[0]?.company_name, 
+        graphData?.graphData?.ascending?.[1]?.company_name, 
+        graphData?.graphData?.ascending?.[2]?.company_name, 
+        graphData?.graphData?.ascending?.[3]?.company_name, 
+        graphData?.graphData?.ascending?.[4]?.company_name
+    ],
     datasets: [
       {
-        data: [15, 10, 30, 22, 32],
+        data: [graphData?.graphData?.ascending?.[0]?.avg_receive_days, 
+        graphData?.graphData?.ascending?.[1]?.avg_receive_days, 
+        graphData?.graphData?.ascending?.[2]?.avg_receive_days, 
+        graphData?.graphData?.ascending?.[3]?.avg_receive_days, 
+        graphData?.graphData?.ascending?.[4]?.avg_receive_days],
         backgroundColor: [
           "#F8AAAA",
           "#F8AAAA",
