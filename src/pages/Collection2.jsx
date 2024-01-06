@@ -5,8 +5,12 @@ import Sidebar from "../components/common/Sidebar";
 import IMAGES from "../images";
 import axios from "axios";
 import { Doughnut, Chart, Bar } from "react-chartjs-2";
+import FilterContainer from "../components/AgingReportPage/FilterContainer";
+
+
 
 export const ProjectChart = React.memo((graphData) => {
+  console.log(graphData);
   const data = {
     labels: [
       "Not Submitted Yet",
@@ -132,6 +136,8 @@ const Collection2 = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [data, setData] = useState([]);
   const [graphData, setgraphData] = useState([]);
+  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+
 
   const getGraphData = async () => {
     axios
@@ -175,7 +181,18 @@ const Collection2 = () => {
               src={IMAGES.FilterIcon}
               alt="filter icon"
               className="cursor-pointer"
+              onClick={(e) => {
+                console.log(1);
+                e.stopPropagation();
+                setIsFiltersVisible(!isFiltersVisible);
+              }}
             />
+            {isFiltersVisible && (
+                <FilterContainer
+                  isFiltersVisible={isFiltersVisible}
+                  setIsFiltersVisible={setIsFiltersVisible}
+                />
+              )}
             <div className="bg-white pl-6 py-2 flex-1 flex items-center gap-4">
               <p className="text-[#5F6C72] text-sm font-bold">
                 Collection 2 Report
